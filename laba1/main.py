@@ -25,14 +25,14 @@ def process_file(filename):
         "D": []
     }
 
-    f = open(filename, "r", encoding="utf-8")
+    f = open(filename, "r")
 
     read = csv.reader(f)
     next(read)
     for row in read:
         category = row[0]
-        value = float(row[1])
-        data[category].append(value)
+        val = float(row[1])
+        data[category].append(val)
 
     res = {}
     for cat in data:
@@ -52,7 +52,7 @@ def process_file(filename):
 
 files = ["data_1.csv", "data_2.csv", "data_3.csv", "data_4.csv", "data_5.csv"]
 
-all_medians = {
+MedianAll = {
     "A": [],
     "B": [],
     "C": [],
@@ -63,18 +63,18 @@ for file in files:
     res = process_file(file)
 
     for cat in res:
-        all_medians[cat].append(res[cat][0])
+        MedianAll[cat].append(res[cat][0])
 
 
 print("\nИтоговый результат:")
 print("Категория  Медиана медиан  Стандартное отклонение")
 
-for cat in all_medians:
-    med_of_meds = statistics.median(all_medians[cat])
+for cat in MedianAll:
+    medMeds = statistics.median(MedianAll[cat])
 
-    if len(all_medians[cat]) > 1:
-        std_of_meds = statistics.stdev(all_medians[cat])
+    if len(MedianAll[cat]) > 1:
+        stdMeds = statistics.stdev(MedianAll[cat])
     else:
-        std_of_meds = 0
+        stdMeds = 0
 
-    print(cat, " " * 8, round(med_of_meds, 2), " " * 10, round(std_of_meds, 2))
+    print(cat, " " * 8, round(medMeds, 2), " " * 10, round(stdMeds, 2))
