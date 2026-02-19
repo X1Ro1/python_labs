@@ -1,3 +1,5 @@
+# вычисление и запись в файл
+
 import csv
 import random
 import statistics
@@ -18,21 +20,22 @@ print("Файлы созданы")
 
 
 def process_file(filename):
-    data = {
-        "A": [],
-        "B": [],
-        "C": [],
-        "D": []
-    }
+    data = {"A": [], "B": [], "C": [], "D": []}
 
     f = open(filename, "r")
-
     read = csv.reader(f)
     next(read)
+
     for row in read:
+        if len(row) < 2:
+            continue
         category = row[0]
-        val = float(row[1])
-        data[category].append(val)
+        try:
+            val = float(row[1])
+            if category in data:
+                data[category].append(val)
+        except (ValueError, IndexError):
+            continue
 
     res = {}
     for cat in data:
@@ -50,21 +53,14 @@ def process_file(filename):
     return res
 
 
-files = ["data_1.csv", "data_2.csv", "data_3.csv", "data_4.csv", "data_5.csv"]
+files = ["data1.csv", "data2.csv", "data3.csv", "data4.csv", "data5.csv"]
 
-MedianAll = {
-    "A": [],
-    "B": [],
-    "C": [],
-    "D": []
-}
+MedianAll = {"A": [], "B": [], "C": [], "D": [] }
 
 for file in files:
     res = process_file(file)
-
     for cat in res:
         MedianAll[cat].append(res[cat][0])
-
 
 print("\nИтоговый результат:")
 print("Категория  Медиана медиан  Стандартное отклонение")
